@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#FFE600">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Extrato - Mercado Pago</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="extrato.css">
+</head>
+<body>
+    <div class="app">
+
+        <!-- Header fixo -->
+        <div class="sticky-top">
+            <header class="header">
+                <div class="header-content">
+                    <button class="back-btn" onclick="history.back()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4361EE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <div style="width:38px"></div>
+                </div>
+            </header>
+        </div>
+
+        <!-- Saldo -->
+        <div class="balance-block">
+            <h1 class="page-title">Saldo e extrato</h1>
+            <div class="balance-top">
+                <span class="currency-ext">R$</span>
+                <span class="balance-val"><strong id="saldo-reais">0</strong><sup id="saldo-centavos">00</sup></span>
+                <button class="eye-btn-ext" id="eye-ext">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+            </div>
+            <p class="balance-sub">Sua conta vai começar a render em até 2 dias úteis.</p>
+
+            <div class="quick-actions">
+                <button class="qa-btn">
+                    <div class="qa-icon">
+                        <img src="depositar.png" width="32" height="32" alt="Depositar">
+                    </div>
+                    <span>Depositar</span>
+                </button>
+                <button class="qa-btn">
+                    <div class="qa-icon">
+                        <img src="transferir.png" width="32" height="32" alt="Transferir">
+                    </div>
+                    <span>Transferir</span>
+                </button>
+                <button class="qa-btn">
+                    <div class="qa-icon">
+                        <img src="sacar.png" width="32" height="32" alt="Sacar">
+                    </div>
+                    <span>Sacar</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Extrato -->
+        <main class="content">
+            <div class="extrato-header">
+                <span class="extrato-title">Extrato</span>
+            </div>
+            <a href="extrato-completo.html" class="ver-tudo">Ver tudo →</a>
+
+            <div id="lista-transacoes"></div>
+
+            <!-- Análise -->
+            <div class="analise-section">
+                <h2 class="analise-title" id="analise-titulo">Análise de março</h2>
+                <div class="analise-card">
+                    <span class="analise-card-title">Gastos por categoria</span>
+                    <a href="#" class="analise-link">Analisar →</a>
+
+                    <!-- Gráfico rosca -->
+                    <div class="donut-wrap">
+                        <img src="circulo.png" class="donut-img" alt="gráfico">
+                        <div class="donut-center">
+                            <span class="donut-label">Total no mês</span>
+                            <span class="donut-value">R$ <strong id="total-mes-reais">59</strong><sup id="total-mes-centavos">70</sup></span>
+                        </div>
+                    </div>
+
+                    <!-- Categorias -->
+                    <div class="categorias">
+                        <div class="categoria-item">
+                            <div class="cat-icon" style="background:#EAEBF5">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9B9EC8" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                            </div>
+                            <span class="cat-valor" id="cat-val1">R$ 39,80</span>
+                            <span class="cat-nome">Pendente de categoria</span>
+                        </div>
+                        <div class="categoria-item">
+                            <div class="cat-icon" style="background:#E8F5E9">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7CB342" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                            </div>
+                            <span class="cat-valor" id="cat-val2">R$ 19,90</span>
+                            <span class="cat-nome">Supermercado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+    </div>
+
+    <script>
+        const nomes = [
+            'Ana Clara Oliveira','Bruno Henrique Santos','Camila Ferreira Lima',
+            'Diego Alves Costa','Eduarda Martins Souza','Felipe Rocha Pereira',
+            'Gabriela Nunes Ribeiro','Henrique Carvalho Gomes','Isabela Teixeira Almeida',
+            'João Victor Barbosa','Karoline Mendes Freitas','Lucas Pinto Cavalcante',
+            'Mariana Lopes Nascimento','Nicolas Araújo Moreira','Olivia Dias Cardoso',
+            'Pedro Henrique Vieira','Rafaela Cunha Monteiro','Samuel Borges Correia',
+            'Tatiane Moura Figueiredo','Victor Hugo Azevedo','Yasmin Batista Rodrigues',
+            'André Luiz Machado','Beatriz Campos Silveira','Carlos Eduardo Pires',
+            'Daniela Ramos Guimarães','Elias Sousa Fernandes','Fernanda Castro Braga',
+            'Gustavo Almeida Goulart','Helena Vasconcelos Cruz','Igor Melo Andrade'
+        ];
+
+        const meses = ['janeiro','fevereiro','março','abril','maio','junho',
+                       'julho','agosto','setembro','outubro','novembro','dezembro'];
+
+        // Seed determinística por número do dia no ano — mesmo nome sempre no mesmo dia
+        function seededRand(seed) {
+            let x = Math.sin(seed + 1) * 10000;
+            return x - Math.floor(x);
+        }
+
+        function diaDoAno(d) {
+            const inicio = new Date(d.getFullYear(), 0, 0);
+            return Math.floor((d - inicio) / 86400000);
+        }
+
+        function nomeParaDia(d) {
+            const seed = diaDoAno(d) + d.getFullYear() * 366;
+            return nomes[Math.floor(seededRand(seed) * nomes.length)];
+        }
+
+        // Chave única por dia: "2026-03-19"
+        function chave(d) {
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        }
+
+        // Carrega transações salvas
+        let transacoes = JSON.parse(localStorage.getItem('mp_extrato') || '[]');
+        const hoje = new Date();
+        const k = chave(hoje);
+        const jaExiste = transacoes.filter(tx => tx.chave === k);
+
+        // Se ainda não tem 3 entradas hoje, completa até 3
+        if (jaExiste.length < 3) {
+            const faltam = 3 - jaExiste.length;
+            const nomesUsados = jaExiste.map(tx => tx.nome);
+            let adicionados = 0;
+            let tentativa = 0;
+            while (adicionados < faltam && tentativa < 100) {
+                const seed = diaDoAno(hoje) + hoje.getFullYear() * 366 + tentativa * 97;
+                const nome = nomes[Math.floor(seededRand(seed) * nomes.length)];
+                if (!nomesUsados.includes(nome)) {
+                    const hora = new Date(hoje);
+                    hora.setHours(8 + adicionados * 3, 0, 0, 0);
+                    transacoes.push({
+                        chave: k,
+                        nome,
+                        dia: hoje.getDate(),
+                        mes: hoje.getMonth(),
+                        ano: hoje.getFullYear(),
+                        ts: hora.getTime()
+                    });
+                    nomesUsados.push(nome);
+                    adicionados++;
+                }
+                tentativa++;
+            }
+            localStorage.setItem('mp_extrato', JSON.stringify(transacoes));
+        }
+
+        // Ordena do mais recente para o mais antigo
+        transacoes.sort((a, b) => b.ts - a.ts);
+
+        // Mostra apenas as 3 do dia atual
+        const hoje_chave = chave(hoje);
+        const transacoesExibidas = transacoes.filter(tx => tx.chave === hoje_chave);
+
+        function renderizar() {
+            const lista = document.getElementById('lista-transacoes');
+            let html = '';
+
+            transacoesExibidas.forEach(tx => {
+                html += `
+                <div class="transaction">
+                    <div class="tx-icon-wrap">
+                        <img src="recebido.png" alt="Pix recebido">
+                    </div>
+                    <div class="tx-info">
+                        <span class="tx-name">Pix recebido</span>
+                        <span class="tx-desc">${tx.nome}</span>
+                    </div>
+                    <div class="tx-right">
+                        <span class="tx-amount positive">+R$19,90</span>
+                        <span class="tx-date">${tx.dia} de ${meses[tx.mes]}</span>
+                    </div>
+                </div>`;
+            });
+
+            lista.innerHTML = html;
+        }
+
+        // Saldo exato do localStorage
+        const total = localStorage.getItem('mp_saldo') || '0,00';
+        const partesS = total.split(',');
+        document.getElementById('saldo-reais').textContent = partesS[0];
+        document.getElementById('saldo-centavos').textContent = partesS[1] || '00';
+
+        // Olho esconder saldo
+        let hidden = false;
+        document.getElementById('eye-ext').addEventListener('click', () => {
+            hidden = !hidden;
+            document.getElementById('saldo-reais').textContent = hidden ? '••••' : partesS[0];
+            document.getElementById('saldo-centavos').textContent = hidden ? '' : (partesS[1] || '00');
+        });
+
+        renderizar();
+
+        // Título análise com mês atual
+        const nomeMesAtual = meses[hoje.getMonth()];
+        document.getElementById('analise-titulo').textContent = 'Análise de ' + nomeMesAtual;
+
+        // Total do mês = triplo do saldo
+        const saldoNum = parseFloat(total.replace(/\./g, '').replace(',', '.')) || 0;
+        const triploStr = (saldoNum * 3).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        const partes = triploStr.split(',');
+        document.getElementById('total-mes-reais').textContent = partes[0];
+        document.getElementById('total-mes-centavos').textContent = partes[1] || '00';
+    </script>
+    </body>
+</html>

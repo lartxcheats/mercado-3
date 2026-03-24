@@ -1,0 +1,33 @@
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { font-family: Inter, sans-serif; background: #FFE600; color: #1A1A1A; }
+.app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #fff; }
+
+/* Header amarelo */
+.header { background: #FFE600; padding: calc(14px + env(safe-area-inset-top)) 16px 14px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+.header-title { font-size: 17px; font-weight: 700; color: #1A1A1A; }
+.back-btn { width: 36px; height: 36px; background: none; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+
+/* Busca */
+.search-bar { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; }
+.search-input { flex: 1; display: flex; align-items: center; gap: 8px; background: #fff; border: 1.5px solid #ddd; border-radius: 99px; padding: 10px 16px; color: #888; font-size: 15px; }
+.filter-icon { background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; flex-shrink: 0; }
+.divider-v { width: 1px; height: 20px; background: #ddd; flex-shrink: 0; }
+
+/* Dia header */
+.day-header { display: flex; justify-content: space-between; align-items: center; background: #f2f2f2; padding: 10px 16px; border-radius: 8px; margin: 4px 16px; }
+.day-header span { font-size: 13px; font-weight: 500; color: #888; }
+.saldo-dia { font-size: 13px; color: #888; font-weight: 500; }
+
+/* Transação */
+.transaction { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #f5f5f5; }
+.tx-icon-wrap { width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid #ddd; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #fff; overflow: hidden; }
+.tx-icon-wrap img { width: 24px; height: 24px; object-fit: contain; }
+.tx-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.tx-name { font-size: 14px; font-weight: 600; color: #1A1A1A; }
+.tx-desc { font-size: 12px; color: #888; }
+.tx-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+.tx-amount { font-size: 14px; font-weight: 700; }
+.tx-amount sup { font-size: 10px; vertical-align: super; line-height: 0; }
+.tx-amount.positive { color: #00A650; }
+.tx-amount.negative { color: #1A1A1A; }
+.tx-hora { font-size: 12px; color: #888; }

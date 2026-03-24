@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#FFFFFF">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Pix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="pix.css">
+</head>
+<body>
+    <div class="app">
+
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">Pix</h1>
+            <div class="header-actions">
+                <button class="pill-btn">
+                    <!-- share/keys icon -->
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5E42D4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                    </svg>
+                    <span>Chaves</span>
+                </button>
+                <button class="pill-btn">
+                    <!-- pix diamond icon -->
+                    <img src="areapix.png" alt="Área Pix" class="pill-icon">
+                    <span>Área Pix</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Search -->
+        <div class="search-row">
+            <div class="search-input-wrap" onclick="window.location.href='pix-transferir.html'" style="cursor:pointer;">
+                <input type="text" placeholder="Insira chave, código do Pix ou nome" class="search-input" readonly style="cursor:pointer;">
+            </div>
+            <button class="qr-btn">
+                <img src="qrcode.png" alt="QR Code" class="qr-icon">
+            </button>
+        </div>
+
+        <!-- Contacts -->
+        <div class="contacts-section">
+            <h2 class="section-title">Todos os contatos</h2>
+            <div class="contact-list">
+                <!-- Contato 1 - Você -->
+                <div class="contact-item">
+                    <div class="avatar-wrap">
+                        <div class="avatar">GG</div>
+                        <div class="bank-badge bank-nu">
+                            <span>nu</span>
+                        </div>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-name">Gustavo Almeida Goulart</span>
+                        <span class="badge-you">Você</span>
+                    </div>
+                    <button class="more-btn">⋮</button>
+                </div>
+
+                <!-- Contato 2 -->
+                <div class="contact-item">
+                    <div class="avatar-wrap">
+                        <div class="avatar">FS</div>
+                        <div class="bank-badge bank-nu">
+                            <span>nu</span>
+                        </div>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-name">Felipe Quaresma Dos Santos</span>
+                    </div>
+                    <button class="more-btn">⋮</button>
+                </div>
+
+                <!-- Contato 3 -->
+                <div class="contact-item">
+                    <div class="avatar-wrap">
+                        <div class="avatar">MA</div>
+                        <div class="bank-badge bank-inter">
+                            <span>✕</span>
+                        </div>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-name">Maria Das Vitorias Pereira Almeida</span>
+                    </div>
+                    <button class="more-btn">⋮</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom nav -->
+        <nav class="bottom-nav">
+            <button class="nav-item" onclick="window.location.href='mp.html'">
+                <img src="casinha.png" alt="Conta" class="nav-icon-img">
+                <span>Conta</span>
+            </button>
+            <button class="nav-item">
+                <img src="catao.png" alt="Cartões" class="nav-icon-img">
+                <span>Cartões</span>
+            </button>
+            <button class="nav-item nav-center active">
+                <div class="nav-circle">
+                    <img src="pix2.png" alt="Pix" class="pix-icon">
+                </div>
+                <span>Pix</span>
+            </button>
+            <button class="nav-item">
+                <img src="pagamento.png" alt="Pagamentos" class="nav-icon-img">
+                <span>Pagamentos</span>
+            </button>
+            <button class="nav-item">
+                <img src="mais.png" alt="Mais" class="nav-icon-img">
+                <span>Mais</span>
+            </button>
+        </nav>
+    </div>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#FFE600">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Extrato Completo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="extrato-completo.css">
+</head>
+<body>
+    <div class="app">
+
+        <!-- Header amarelo -->
+        <div class="header">
+            <button class="back-btn" onclick="history.back()">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 5l-7 7 7 7"/>
+                </svg>
+            </button>
+            <span class="header-title">Extrato</span>
+            <div style="width:36px"></div>
+        </div>
+
+        <!-- Busca -->
+        <div class="search-bar">
+            <div class="search-input">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <span>Buscar</span>
+            </div>
+            <button class="filter-icon" style="width:22px;height:13px;background:url('filtro.png') center/contain no-repeat;padding:0;flex-shrink:0;"></button>
+            <div class="divider-v"></div>
+            <button class="filter-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+            </button>
+        </div>
+
+        <!-- Lista -->
+        <main id="lista"></main>
+
+    </div>
+
+    <script>
+        const nomes = [
+            'Ana Clara Oliveira','Bruno Henrique Santos','Camila Ferreira Lima',
+            'Diego Alves Costa','Eduarda Martins Souza','Felipe Rocha Pereira',
+            'Gabriela Nunes Ribeiro','Henrique Carvalho Gomes','Isabela Teixeira Almeida',
+            'João Victor Barbosa','Karoline Mendes Freitas','Lucas Pinto Cavalcante',
+            'Mariana Lopes Nascimento','Nicolas Araújo Moreira','Olivia Dias Cardoso',
+            'Pedro Henrique Vieira','Rafaela Cunha Monteiro','Samuel Borges Correia',
+            'Tatiane Moura Figueiredo','Victor Hugo Azevedo','Yasmin Batista Rodrigues',
+            'André Luiz Machado','Beatriz Campos Silveira','Carlos Eduardo Pires',
+            'Daniela Ramos Guimarães','Elias Sousa Fernandes','Fernanda Castro Braga',
+            'Gustavo Almeida Goulart','Helena Vasconcelos Cruz','Igor Melo Andrade'
+        ];
+
+        const meses = ['janeiro','fevereiro','março','abril','maio','junho',
+                       'julho','agosto','setembro','outubro','novembro','dezembro'];
+
+        function seededRand(seed) {
+            let x = Math.sin(seed + 1) * 10000;
+            return x - Math.floor(x);
+        }
+
+        function diaDoAno(d) {
+            return Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+        }
+
+        function chave(d) {
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        }
+
+        // Carrega transações do localStorage (as do extrato.html)
+        let transacoes = JSON.parse(localStorage.getItem('mp_extrato') || '[]');
+        // Garante que todas as transações existentes são recebido
+        transacoes = transacoes.map(tx => ({...tx, tipo: 'recebido'}));
+
+        // Gera histórico dos últimos 30 dias com seed fixa
+        const hoje = new Date();
+
+        // Calcula total de pix baseado no saldo
+        const saldoRaw = localStorage.getItem('mp_saldo') || '0,00';
+        const saldoNum = parseFloat(saldoRaw.replace(/\./g, '').replace(',', '.')) || 0;
+        const totalPix = Math.max(30, Math.round(saldoNum / 19.90)); // mínimo 30 no total
+
+        // Distribui os pix pelos 30 dias com variação por seed
+        // Gera pesos aleatórios por dia e normaliza
+        const pesos = [];
+        for (let i = 0; i < 30; i++) {
+            const d = new Date(hoje);
+            d.setDate(hoje.getDate() - (29 - i));
+            const seed = diaDoAno(d) * 7 + d.getFullYear() * 13;
+            pesos.push(0.5 + seededRand(seed) * 1.5); // peso entre 0.5 e 2.0
+        }
+        const somaP = pesos.reduce((a, b) => a + b, 0);
+        const qtdPorIndice = pesos.map(p => Math.max(1, Math.round((p / somaP) * totalPix)));
+
+        function qtdPorDia(indice) {
+            return qtdPorIndice[indice];
+        }
+
+        for (let i = 29; i >= 0; i--) {
+            const d = new Date(hoje);
+            d.setDate(hoje.getDate() - i);
+            const k = chave(d);
+            // Remove entradas do localStorage para este dia e regera tudo com seed fixa
+            transacoes = transacoes.filter(tx => tx.chave !== k);
+            const qtd = qtdPorDia(29 - i);
+            const nomesUsados = [];
+            for (let j = 0; j < qtd; j++) {
+                const seed = diaDoAno(d) * 100 + j * 17 + d.getFullYear();
+                let nome;
+                let tentativa = 0;
+                do {
+                    const s = seed + tentativa * 31;
+                    nome = nomes[Math.floor(seededRand(s) * nomes.length)];
+                    tentativa++;
+                } while (nomesUsados.includes(nome) && tentativa < nomes.length);
+                nomesUsados.push(nome);
+                const hora = new Date(d);
+                const isHoje = (i === 0);
+                const horaMax = isHoje ? hoje.getHours() + hoje.getMinutes() / 60 : 23;
+                const horaMin = 6;
+                const range = Math.max(1, horaMax - horaMin);
+                const horaFloat = horaMin + (j / Math.max(qtd - 1, 1)) * range * seededRand(seed + 3);
+                const hh = Math.min(Math.floor(horaFloat), isHoje ? hoje.getHours() : 23);
+                const mm = Math.floor(seededRand(seed + 7) * 59);
+                hora.setHours(hh, mm, 0, 0);
+                transacoes.push({
+                    chave: k,
+                    nome,
+                    tipo: 'recebido',
+                    dia: d.getDate(),
+                    mes: d.getMonth(),
+                    ano: d.getFullYear(),
+                    ts: hora.getTime(),
+                    hora: hora.getHours() + 'h' + String(hora.getMinutes()).padStart(2,'0')
+                });
+            }
+        }
+
+        // Ordena
+        transacoes.sort((a, b) => b.ts - a.ts);
+
+        // Agrupa por dia
+        const grupos = {};
+        transacoes.forEach(tx => {
+            if (!grupos[tx.chave]) grupos[tx.chave] = [];
+            grupos[tx.chave].push(tx);
+        });
+
+        // Renderiza
+        const lista = document.getElementById('lista');
+        let html = '';
+
+        Object.keys(grupos).sort((a,b) => b.localeCompare(a)).forEach(k => {
+            const txs = grupos[k];
+            const tx0 = txs[0];
+            const saldoDia = 'Saldo do dia  R$  ' + (txs.length * 19.90).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+
+            html += `<div class="day-header">
+                <span>${tx0.dia} de ${meses[tx0.mes]}</span>
+                <span class="saldo-dia">${saldoDia}</span>
+            </div>`;
+
+            txs.forEach(tx => {
+                html += `<div class="transaction">
+                    <div class="tx-icon-wrap">
+                        <img src="recebido.png" alt="recebido">
+                    </div>
+                    <div class="tx-info">
+                        <span class="tx-name">Pix recebido</span>
+                        <span class="tx-desc">${tx.nome}</span>
+                    </div>
+                    <div class="tx-right">
+                        <span class="tx-amount positive">+R$ 19<sup>90</sup></span>
+                        <span class="tx-hora">${tx.hora || ''}</span>
+                    </div>
+                </div>`;
+            });
+        });
+
+        lista.innerHTML = html;
+    </script>
+    </body>
+</html>

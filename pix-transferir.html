@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Transferir via Pix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: Inter, sans-serif; background: #fff; color: #1A1A1A; }
+        .app { max-width: 430px; margin: 0 auto; min-height: 100vh; padding: calc(16px + env(safe-area-inset-top)) 20px 40px; }
+
+        .back-btn {
+            width: 48px; height: 48px;
+            background: #EEF0FF;
+            border: none; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; margin-bottom: 32px;
+        }
+
+        .field-wrap {
+            border: 2px solid #4361EE;
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 20px;
+        }
+
+        .field-wrap input {
+            width: 100%; border: none; outline: none;
+            font-size: 16px; font-family: Inter, sans-serif;
+            color: #1A1A1A; background: transparent;
+        }
+
+        .field-wrap input::placeholder { color: #BDBDBD; }
+
+        .agency-link {
+            color: #4361EE; font-size: 15px; font-weight: 600;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <button class="back-btn" onclick="history.back()">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4361EE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+        </button>
+
+        <div class="field-wrap">
+            <input type="text" placeholder="Insira chave, código do Pix ou nome" autofocus id="pix-input">
+        </div>
+
+        <div id="sugestao" style="display:none; align-items:center; gap:14px; padding: 14px 4px;">
+            <div style="width:42px;height:42px;border-radius:50%;background:#E8E8F0;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+                <div style="font-size:14px;color:#888;">Fazer Pix para:</div>
+                <div style="font-size:15px;font-weight:700;color:#1A1A1A;" id="sugestao-texto"></div>
+            </div>
+        </div>
+
+        <script>
+            const input = document.getElementById('pix-input');
+            const sugestao = document.getElementById('sugestao');
+            const sugestaoTexto = document.getElementById('sugestao-texto');
+            input.addEventListener('input', () => {
+                const val = input.value.trim();
+                if (val.length > 0) {
+                    sugestao.style.display = 'flex';
+                    sugestaoTexto.textContent = '"' + val + '"';
+                } else {
+                    sugestao.style.display = 'none';
+                }
+            });
+        </script>
+
+        <a href="#" class="agency-link">Usar agência e conta →</a>
+    </div>
+    </body>
+</html>
